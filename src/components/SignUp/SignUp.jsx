@@ -3,7 +3,7 @@ import  { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 
 
-function Signup({ showSignUp, handleToggle }) {
+function SignUp({ showSignUp, handleToggle }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -117,4 +117,4 @@ function Signup({ showSignUp, handleToggle }) {
   );
 }
 
-export default Signup;
+export default SignUp;
