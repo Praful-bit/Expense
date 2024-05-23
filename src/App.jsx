@@ -1,14 +1,24 @@
 
+import { useContext } from 'react'
 import './App.css'
 import LoginPage from './components/SignUp/LoginPage'
+import { AuthContext } from './Context/AuthContext'
+import Header from './components/Header/Header'
+import { Outlet } from 'react-router-dom'
 
 
 function App() {
-  
+  const {token} = useContext(AuthContext)
 
   return (
     <>
-      <LoginPage/>
+     {!token && <LoginPage/>}
+     {token && (
+      <div>
+        <Header/>
+        <Outlet/>
+      </div>
+     )}
     </>
   )
 }
