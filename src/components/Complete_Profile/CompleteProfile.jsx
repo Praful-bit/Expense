@@ -31,6 +31,26 @@ const {token} = useContext(AuthContext)
    }
    }
 
+    const getData =async()=>{
+    try{
+      const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,{
+        method:"POST",
+        body:JSON.stringify({idToken:token}),
+        headers:{'Content-Type' : 'application/json'}
+      }
+    ); 
+    const resData = await res.json()
+    console.log(resData);
+    const user = resData.users[0];
+    setName(user.displayName || "")
+    setUrl(user.photoUrl || "")
+    }catch(err){
+      console.log("getData",err);
+    }
+    }
+   
+   
+
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -54,7 +74,7 @@ const {token} = useContext(AuthContext)
         </label>
         <input
           value={name}
-          onChange={(e)=>setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           type="text"
           id="fullName"
           className="border border-gray-300 rounded p-2 flex-1"
@@ -69,13 +89,22 @@ const {token} = useContext(AuthContext)
         <input
           type="text"
           value={url}
-          onChange={(e)=>setUrl(e.target.value)}
+          onChange={(e) => setUrl(e.target.value)}
           id="profilePhoto"
           className="border border-gray-300 rounded p-2 flex-1"
         />
       </div>
-      <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={HandleClick}>
+      <button
+        className="bg-red-500 text-white px-4 py-2 rounded"
+        onClick={HandleClick}
+      >
         Update
+      </button>
+      <button
+        className="bg-red-500 text-white px-4 py-2 mx-2 rounded"
+        onClick={getData}
+      >
+        Get Data
       </button>
     </div>
   );
