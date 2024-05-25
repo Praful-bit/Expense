@@ -44,10 +44,13 @@ function HomeList() {
                 className="mb-2 p-4 border-b border-gray-200 flex justify-between items-center"
               >
                 <div>
-                  <strong>Money:</strong> {data.money},{" "}
-                  <strong>Description:</strong> {data.description},{" "}
-                  <strong>Category:</strong> {data.category}
+                  <span>Money: {data.money}</span> 
+                  <span>Description: {data.description}</span> 
+                  <span>Category: {data.category}</span>
                 </div>
+                <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200">
+                  Edit
+                </button>{" "}
                 <button
                   onClick={() => handleDelete(data.id)}
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200"
