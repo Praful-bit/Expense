@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import SignUp from "./SignUp";
 import { AuthContext } from "../../Context/AuthContext";
+import ForgetPassword from "./ForgetPassword";
 // import {  useNavigate } from "react-router-dom";
 // import PasswordChange from "./PasswordChange";
 
@@ -157,9 +158,9 @@ function LoginPage() {
         <SignUp showSignUp={showSignUp} handleToggle={handleToggle} />
       )}
 
-      {/* {openPass && (
-        <PasswordChange openPass={openPass} setOpenPass={setOpenPass} />
-      )} */}
+      {openPass && (
+        <ForgetPassword openPass={openPass} setOpenPass={setOpenPass} />
+      )}
     </div>
   );
 }
