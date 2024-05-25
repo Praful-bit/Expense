@@ -6,6 +6,7 @@ import { AuthContext } from './Context/AuthContext'
 import Header from './components/Header/Header'
 import { Outlet } from 'react-router-dom'
 import User from './components/User/User'
+import Home from './components/HomePage/Home'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <div>
         <Header/>
         <User/>
+        <Home/>
         <Outlet/>
       </div>
      )}
