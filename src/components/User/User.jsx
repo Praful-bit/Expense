@@ -1,9 +1,8 @@
 // import React from 'react'
-import { useContext } from "react";
-import { AuthContext } from "../../Context/AuthContext";
+
 
 function User() {
-    const {token} = useContext(AuthContext)
+    // const {token} = useContext(AuthContext)
 
     const handleClick =async()=>{
         const res = await fetch(
@@ -12,7 +11,7 @@ function User() {
             method: "POST",
             body: JSON.stringify({
               requestType: "VERIFY_EMAIL",
-              idToken: token,
+              // idToken: token,
             }),
             headers: { "Content-Type": "application/json" }
           }

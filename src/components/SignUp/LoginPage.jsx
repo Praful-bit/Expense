@@ -1,27 +1,26 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import SignUp from "./SignUp";
-import { AuthContext } from "../../Context/AuthContext";
+import { Link } from "react-router-dom";
 import ForgetPassword from "./ForgetPassword";
-// import {  useNavigate } from "react-router-dom";
-// import PasswordChange from "./PasswordChange";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../Store";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showLoginPage, setShowLoginPage] = useState(false);
-  const [openPass, setOpenPass] = useState(false);
-  const { login } = useContext(AuthContext);
-
-//   const navigate = useNavigate();
+ const OpenPass = useSelector((state) => state.auth.forgetPass);
+  const backToLogin = useSelector(state => state.auth.backToLogin);
+  const showSignUp = useSelector(state => state.auth.openSignUp);
+const dispatch = useDispatch();
 
   const handleToggle = () => {
-    setShowSignUp(!showSignUp);
-    setShowLoginPage(!showLoginPage);
+    dispatch(authAction.openSign())
+    dispatch(authAction.openLogin())
+  
   };
 
   const handleOpen = () => {
-    setOpenPass(!openPass);
+    dispatch(authAction.openForgetPass())
   };
 
   const handleLogin = async (e) => {
@@ -38,8 +37,9 @@ function LoginPage() {
         }
       );
       const resData = await res.json();
-      login(resData.idToken);
+      console.log(resData);
     //   navigate("/");
+    dispatch(authAction.login())
     } catch (err) {
       console.log(err);
     }
@@ -47,8 +47,8 @@ function LoginPage() {
   };
   return (
     <div>
-      {/* <Link to="/loggin"></Link> */}
-      {!showLoginPage && !openPass && (
+      <Link to="/loggin"></Link>
+      {!backToLogin && !OpenPass && (
         <div className="min-h-screen flex items-center justify-center bg-violet-200 py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full space-y-8">
             <div>
@@ -108,7 +108,7 @@ function LoginPage() {
                   </label>
                 </div>
 
-                {!openPass && (
+                {!OpenPass && (
                   <div className="text-sm">
                     <button onClick={handleOpen}>Forget Password</button>
                   </div>
@@ -141,7 +141,7 @@ function LoginPage() {
                   </span>
                   Log In
                 </button>
-                {!showSignUp && !showLoginPage && (
+                {!showSignUp && !backToLogin && (
                   <button
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={handleToggle}
@@ -158,8 +158,8 @@ function LoginPage() {
         <SignUp showSignUp={showSignUp} handleToggle={handleToggle} />
       )}
 
-      {openPass && (
-        <ForgetPassword openPass={openPass} setOpenPass={setOpenPass} />
+      {OpenPass && (
+        <ForgetPassword />
       )}
     </div>
   );

@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import  { useContext, useState } from "react";
-import { AuthContext } from "../../Context/AuthContext";
+
+import { useState } from "react";
+
 
 
 function SignUp({ showSignUp, handleToggle }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- const {login} = useContext(AuthContext)
+
  
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -36,7 +37,7 @@ function SignUp({ showSignUp, handleToggle }) {
         }
       );
     const resData = await response.json()
-    login(resData.idToken)
+    // login(resData.idToken)
     console.log(resData);
     }catch(err){
     console.log(err)

@@ -1,25 +1,24 @@
-import { useContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext";
+import { authAction } from "../../Store";
 
 function Header() {
-  const {logout,token} = useContext(AuthContext)
-  const[isLoggedIn, setLoggedIn] = useState(!!token)
-
-
-
+  const isAuth = useSelector(state=> state.auth.isAuthenticated)
+  const dispatch = useDispatch();
+   
   return (
     <div className="bg-blue-500 p-4 flex justify-between items-center">
       <p className="text-white text-lg font-bold">
         Welcome to Expense Tracker!!!
       </p>
-      <button value={isLoggedIn} className="text-xl font-serif text-white" onClick={()=>{logout();setLoggedIn(false)}}>LogOut</button>
+      {isAuth &&
       <span className="text-white">
         Your Profile is not complete.{" "}
         <NavLink className="text-yellow-300 underline" to="/complete">
           Complete Now
         </NavLink>
-      </span>
+      </span>}
+      <button onClick={()=> dispatch(authAction.logOut())} className="text-xl font-serif text-white">LogOut</button>
     </div>
   );
 }

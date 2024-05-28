@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext";
+
 
 function CompleteProfile() {
-const {token} = useContext(AuthContext)
+
    const [name,setName] = useState("")
    const [url,setUrl] = useState("")
-  console.log(token);
+
    const HandleClick=async()=>{
    try{
     const res = await fetch(
