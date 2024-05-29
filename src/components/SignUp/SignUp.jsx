@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 
-
-
 function SignUp({ showSignUp, handleToggle }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
- 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -25,7 +22,7 @@ function SignUp({ showSignUp, handleToggle }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", { username, email, password });
-    try{
+    try {
       const response = await fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,
         {
@@ -36,11 +33,11 @@ function SignUp({ showSignUp, handleToggle }) {
           },
         }
       );
-    const resData = await response.json()
-    // login(resData.idToken)
-    console.log(resData);
-    }catch(err){
-    console.log(err)
+      const resData = await response.json();
+      // login(resData.idToken)
+      console.log(resData);
+    } catch (err) {
+      console.log(err);
     }
   };
 

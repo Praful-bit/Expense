@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authAction } from "../../Store";
+import { authAction } from "../../Store/Auth";
 
 function Header() {
   const isAuth = useSelector(state=> state.auth.isAuthenticated)

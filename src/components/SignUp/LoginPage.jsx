@@ -3,7 +3,7 @@ import SignUp from "./SignUp";
 import { Link } from "react-router-dom";
 import ForgetPassword from "./ForgetPassword";
 import { useDispatch, useSelector } from "react-redux";
-import { authAction } from "../../Store";
+import { authAction } from "../../Store/Auth";
 
 function LoginPage() {
   const [email, setEmail] = useState("");

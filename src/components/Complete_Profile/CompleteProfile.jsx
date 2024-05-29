@@ -15,7 +15,7 @@ function CompleteProfile() {
      {
        method: "POST",
        body: JSON.stringify({
-         idToken: token,
+        //  idToken: token,
          displayName: name,
          photoUrl: url,
          returnSecureToken: true
