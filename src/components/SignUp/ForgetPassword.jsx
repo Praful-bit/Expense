@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
-function ForgetPassword({ open }) {
+function ForgetPassword({ handle }) {
   const newEmail = useRef();
 
   const handleForget = async (e) => {
@@ -51,14 +51,12 @@ function ForgetPassword({ open }) {
           Forget PassWord
         </button>
 
-        {open && (
-          <button
-            className="w-full mt-2 bg-green-500 text-white font-semibold py-2 px-4 rounded-md transition duration-300 hover:bg-green-600"
-            onClick={() => !open}
-          >
-            Back To login Page!
-          </button>
-        )}
+        <button
+          className="w-full mt-2 bg-green-500 text-white font-semibold py-2 px-4 rounded-md transition duration-300 hover:bg-green-600"
+          onClick={handle}
+        >
+          Back To login Page!
+        </button>
       </form>
     </div>
   );

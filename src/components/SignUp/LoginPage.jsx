@@ -8,19 +8,19 @@ import { authAction } from "../../Store/Auth";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- const OpenPass = useSelector((state) => state.auth.forgetPass);
-  const backToLogin = useSelector(state => state.auth.backToLogin);
-  const showSignUp = useSelector(state => state.auth.openSignUp);
-const dispatch = useDispatch();
+  const OpenPass = useSelector((state) => state.auth.forgetPass);
+  const backToLogin = useSelector((state) => state.auth.backToLogin);
+  const showSignUp = useSelector((state) => state.auth.openSignUp);
+  const dispatch = useDispatch();
 
   const handleToggle = () => {
-    dispatch(authAction.openSign())
-    dispatch(authAction.openLogin())
-  
+    dispatch(authAction.openSign());
+    dispatch(authAction.openLogin());
   };
 
   const handleOpen = () => {
-    dispatch(authAction.openForgetPass())
+     dispatch(authAction.openLogin());
+    dispatch(authAction.openForgetPass());
   };
 
   const handleLogin = async (e) => {
@@ -38,8 +38,8 @@ const dispatch = useDispatch();
       );
       const resData = await res.json();
       console.log(resData);
-    //   navigate("/");
-    dispatch(authAction.login())
+      //   navigate("/");
+      dispatch(authAction.login());
     } catch (err) {
       console.log(err);
     }
@@ -158,9 +158,7 @@ const dispatch = useDispatch();
         <SignUp showSignUp={showSignUp} handleToggle={handleToggle} />
       )}
 
-      {OpenPass && (
-        <ForgetPassword />
-      )}
+      {OpenPass && (<ForgetPassword handle={handleOpen}/>)}
     </div>
   );
 }
