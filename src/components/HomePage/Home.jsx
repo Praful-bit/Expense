@@ -1,15 +1,27 @@
-/* eslint-disable no-unused-vars */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomeList from "./HomeList";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseAction } from "../../Store/Expense";
 
 function Home() {
+  const data = useSelector((state) => state.expense.data);
   const newMoney = useRef();
   const newDes = useRef();
   const newCat = useRef();
-  const [formData, setFormData] = useState([]);
+  const dispatch = useDispatch();
+  const [totalPrice, setTotalPrice] = useState(0);
 
+  useEffect(() => {
+    const total = data.reduce(
+      (sum, expense) => sum + Number(expense.money),
+      0
+    );
+    setTotalPrice(total);
+  }, [data]);
+console.log(totalPrice);
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const moneyValue = newMoney.current.value;
     const descriptionValue = newDes.current.value;
     const cat = newCat.current.value;
@@ -29,17 +41,23 @@ function Home() {
     );
     const resData = await res.json();
     console.log(resData);
-    setFormData(resData);
+    const newRes = {
+      id: resData.name,
+      money: moneyValue,
+      description: descriptionValue,
+      category: cat,
+    };
+    dispatch(expenseAction.addExpense(newRes));
     newMoney.current.value = "";
     newDes.current.value = "";
     newCat.current.value = "";
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="mb-8">
           <div className="mb-4">
             <label
               htmlFor="money"
@@ -96,6 +114,20 @@ function Home() {
         </form>
         <HomeList />
       </div>
+      {totalPrice > 10000 ? (
+        <button className="bg-green-700 text-white px-4 py-2 rounded-lg mt-4">
+          Download Your Transactions
+        </button>
+      ) : (
+        <div className="flex items-center text-xl italic font-extralight mt-4">
+          <div
+            title="You have to spend at least 100000 to unlock VIP"
+            className="flex items-center cursor-pointer"
+          >
+            <p className="text-2xl text-yellow-400">Unlock VIP</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

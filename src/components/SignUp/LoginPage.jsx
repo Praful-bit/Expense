@@ -12,14 +12,16 @@ function LoginPage() {
   const backToLogin = useSelector((state) => state.auth.backToLogin);
   const showSignUp = useSelector((state) => state.auth.openSignUp);
   const dispatch = useDispatch();
-
+  const token = useSelector((state) => state.auth.token);
+  console.log(token);
+  
   const handleToggle = () => {
     dispatch(authAction.openSign());
     dispatch(authAction.openLogin());
   };
 
   const handleOpen = () => {
-     dispatch(authAction.openLogin());
+    dispatch(authAction.openLogin());
     dispatch(authAction.openForgetPass());
   };
 
@@ -30,7 +32,11 @@ function LoginPage() {
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,
         {
           method: "POST",
-          body: JSON.stringify({ email, password, returnSecureToken: true }),
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            returnSecureToken: true,
+          }),
           headers: {
             "Content-type": "application/json",
           },
@@ -38,13 +44,13 @@ function LoginPage() {
       );
       const resData = await res.json();
       console.log(resData);
-      //   navigate("/");
-      dispatch(authAction.login());
+      dispatch(authAction.login(resData.idToken));
     } catch (err) {
       console.log(err);
     }
     console.log("Login with:", { email, password });
   };
+  
   return (
     <div>
       <Link to="/loggin"></Link>
@@ -158,7 +164,7 @@ function LoginPage() {
         <SignUp showSignUp={showSignUp} handleToggle={handleToggle} />
       )}
 
-      {OpenPass && (<ForgetPassword handle={handleOpen}/>)}
+      {OpenPass && <ForgetPassword handle={handleOpen} />}
     </div>
   );
 }

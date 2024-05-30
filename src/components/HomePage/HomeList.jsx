@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseAction } from "../../Store/Expense";
 
 function HomeList() {
-  const [fetchData, setFetchData] = useState([]);
+  const dataGet = useSelector((state) => state.expense.data);
   const [editId, setEditId] = useState(null);
+  
   const [editData, setEditData] = useState({
     money: "",
     description: "",
     category: "",
   });
+
+  const dispatch = useDispatch();
+
+  console.log(dataGet);
 
   useEffect(() => {
     const helloFetch = async () => {
@@ -19,10 +26,10 @@ function HomeList() {
       for (const key in resData) {
         array.push({ id: key, ...resData[key] });
       }
-      setFetchData(array);
+      dispatch(expenseAction.getExpense(array));
     };
     helloFetch();
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = async (id) => {
     await fetch(
@@ -31,36 +38,46 @@ function HomeList() {
         method: "DELETE",
       }
     );
-    setFetchData((prevData) => prevData.filter((data) => data.id !== id));
+    dispatch(expenseAction.deleteExpense({ id }));
   };
 
   const handleEdit = (id) => {
-    const data = fetchData.find((item) => item.id === id);
-    setEditId(id);
-    setEditData({
-      money: data.money,
-      description: data.description,
-      category: data.category,
-    });
+    const data = dataGet.find((item) => item.id === id); // find the item using id
+    if (data) {
+      setEditId(id);
+      setEditData({
+        money:data.money,
+        description:data.description,
+        category:data.category
+      })
+    }
   };
 
   const handleSave = async (id) => {
+ const {money,description,category} = editData; // editData se value li
     await fetch(
       `https://expense-65a9d-default-rtdb.firebaseio.com/user/${id}.json`,
       {
         method: "PUT",
-        body: JSON.stringify(editData),
+        body: JSON.stringify({
+          money,
+          description,
+          category,
+        }),
       }
     );
-    setFetchData((prevData) =>
-      prevData.map((data) => (data.id === id ? { ...data, ...editData } : data))
-    );
-    setEditId(null);
+    dispatch(expenseAction.updateExpense({
+      id,
+      money,
+      description,
+      category,
+    }));
+    setEditId(null) // this thing work like exit
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditData((prevData) => ({ ...prevData, [name]: value }));
+    setEditData((prevData) => ({ ...prevData, [name]: value })); // for updating 
   };
 
   return (
@@ -70,9 +87,9 @@ function HomeList() {
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-4">Form Data</h2>
           <ul>
-            {fetchData.map((data) => (
+            {dataGet.map((data) => (
               <li
-                key={data}
+                key={data.id}
                 className="mb-2 p-4 border-b border-gray-200 flex justify-between items-center"
               >
                 {editId === data.id ? (

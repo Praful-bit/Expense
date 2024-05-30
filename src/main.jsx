@@ -13,6 +13,7 @@ import CompleteProfile from "./components/Complete_Profile/CompleteProfile.jsx";
 import { Provider } from "react-redux";
 import LoginPage from "./components/SignUp/LoginPage.jsx";
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>

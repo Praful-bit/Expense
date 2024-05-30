@@ -15,8 +15,8 @@ function App() {
       {auth && (
         <div>
           <Header />
+          <Home/>
           <User />
-          <Home />
           <Outlet />
         </div>
       )}

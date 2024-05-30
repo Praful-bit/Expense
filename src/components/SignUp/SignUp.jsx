@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp({ showSignUp, handleToggle }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigation = useNavigate()
+   
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -34,8 +37,10 @@ function SignUp({ showSignUp, handleToggle }) {
         }
       );
       const resData = await response.json();
-      // login(resData.idToken)
       console.log(resData);
+      if(response.ok){
+        navigation('/')
+      }
     } catch (err) {
       console.log(err);
     }
