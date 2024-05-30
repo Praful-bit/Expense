@@ -2,9 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import HomeList from "./HomeList";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseAction } from "../../Store/Expense";
+import { themeAction} from "../../Store/Theme";
+import { saveAs } from "file-saver";
+import * as Papa from "papaparse";
 
 function Home() {
   const data = useSelector((state) => state.expense.data);
+  const darkMode = useSelector((state) => state.theme.darkMode);
   const newMoney = useRef();
   const newDes = useRef();
   const newCat = useRef();
@@ -12,13 +16,10 @@ function Home() {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const total = data.reduce(
-      (sum, expense) => sum + Number(expense.money),
-      0
-    );
+    const total = data.reduce((sum, expense) => sum + Number(expense.money), 0);
     setTotalPrice(total);
   }, [data]);
-console.log(totalPrice);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,7 +41,6 @@ console.log(totalPrice);
       }
     );
     const resData = await res.json();
-    console.log(resData);
     const newRes = {
       id: resData.name,
       money: moneyValue,
@@ -53,16 +53,31 @@ console.log(totalPrice);
     newCat.current.value = "";
   };
 
+  const toggleTheme = () => {
+    dispatch(themeAction.toggleTheme());
+  };
+
+  const downloadCSV = () => {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "expenses.csv");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-lg">
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center ${
+        darkMode ? "bg-gray-800 " : "bg-gray-100 text-black"
+      }`}
+    >
+      <div
+        className={`p-8 rounded shadow-md w-full max-w-lg ${
+          darkMode ? "bg-gray-700" : "bg-white"
+        }`}
+      >
         <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
         <form onSubmit={handleSubmit} className="mb-8">
           <div className="mb-4">
-            <label
-              htmlFor="money"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="money" className="block font-medium mb-2">
               Money Spent
             </label>
             <input
@@ -74,10 +89,7 @@ console.log(totalPrice);
             />
           </div>
           <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="description" className="block font-medium mb-2">
               Description
             </label>
             <input
@@ -89,10 +101,7 @@ console.log(totalPrice);
             />
           </div>
           <div className="mb-4">
-            <label
-              htmlFor="category"
-              className="block text-gray-700 font-medium mb-2"
-            >
+            <label htmlFor="category" className="block font-medium mb-2">
               Category
             </label>
             <select
@@ -113,21 +122,32 @@ console.log(totalPrice);
           </button>
         </form>
         <HomeList />
-      </div>
-      {totalPrice > 10000 ? (
-        <button className="bg-green-700 text-white px-4 py-2 rounded-lg mt-4">
-          Download Your Transactions
-        </button>
-      ) : (
-        <div className="flex items-center text-xl italic font-extralight mt-4">
-          <div
-            title="You have to spend at least 100000 to unlock VIP"
-            className="flex items-center cursor-pointer"
-          >
-            <p className="text-2xl text-yellow-400">Unlock VIP</p>
+        {totalPrice > 10000 ? (
+          <div className="flex flex-col items-center mt-4">
+            <button
+              onClick={downloadCSV}
+              className="bg-green-700 text-white px-4 py-2 rounded-lg mb-2"
+            >
+              Download Your Transactions
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+            >
+              Toggle Theme
+            </button>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center text-xl italic font-extralight mt-4">
+            <div
+              title="You have to spend at least 10000 to unlock VIP"
+              className="flex items-center cursor-pointer"
+            >
+              <p className="text-2xl text-yellow-400">Unlock VIP</p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
