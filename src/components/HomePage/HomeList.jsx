@@ -9,7 +9,7 @@ function HomeList() {
   const darkMode = useSelector((state) => state.theme.darkMode);
   const [editId, setEditId] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
-
+ 
   const [editData, setEditData] = useState({
     money: "",
     description: "",
@@ -94,6 +94,8 @@ function HomeList() {
     setTotalPrice(total);
   }, [dataGet]);
 
+
+
   const downloadCSV = () => {
     const csv = Papa.unparse(dataGet);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -121,6 +123,7 @@ function HomeList() {
             title="You have to spend at least 10000 to unlock VIP"
             className="flex items-center cursor-pointer"
           >
+            <p className="mr-2 pr-2 font-serif">Total Price :- {totalPrice}</p>
             <p className="text-2xl text-yellow-400">Unlock VIP</p>
           </div>
         </div>
@@ -130,14 +133,15 @@ function HomeList() {
           darkMode ? "bg-gray-700" : "bg-white"
         }`}
       >
-        <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center font-serif">
+          Expense Tracker
+        </h1>
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">Form Data</h2>
           <ul>
             {dataGet.map((data) => (
               <li
                 key={data.id}
-                className={`mb-2 p-4 border-b flex justify-between items-center ${
+                className={`mb-2 p-6 font-serif border-b flex justify-between items-center ${
                   darkMode ? "border-gray-600" : "border-gray-200"
                 }`}
               >
@@ -189,9 +193,11 @@ function HomeList() {
                 ) : (
                   <>
                     <div>
-                      <span>Money: {data.money} </span>
-                      <span>Description: {data.description} </span>
-                      <span>Category: {data.category} </span>
+                      <span className="pr-1">Money: {data.money} </span>
+                      <span className="pr-1">
+                        Description: {data.description}{" "}
+                      </span>
+                      <span className="pr-1">Category: {data.category} </span>
                     </div>
                     <button
                       onClick={() => handleEdit(data.id)}

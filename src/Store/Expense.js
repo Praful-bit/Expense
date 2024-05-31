@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const expenseState = {
     data: [],
+    total:0,
     toggle: false,
 }
 
@@ -22,7 +23,8 @@ const expenseSlice = createSlice({
         updateExpense: (state, action) => {
             state.data = state.data.map((data) => data.id === action.payload.id ? action.payload : data)
         },
-        toggleExpense: (state) => { state.toggle = !state.toggle }
+        toggleExpense: (state) => { state.toggle = !state.toggle },
+        total: (state)=>{state.total = state.data.reduce((acc,data)=> acc +Number(data.money)),0}
     }
 })
 

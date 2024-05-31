@@ -12,11 +12,13 @@ import {
 import CompleteProfile from "./components/Complete_Profile/CompleteProfile.jsx";
 import { Provider } from "react-redux";
 import MainToggle from "./components/HomePage/MainToggle.jsx";
+import LoginPage from "./components/SignUp/LoginPage.jsx";
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route path="/login" element={<LoginPage/>}/>
       <Route path="/" element={<MainToggle/>}/>
       <Route path="/complete" element={<CompleteProfile />} />
     </Route>

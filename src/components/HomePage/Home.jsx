@@ -73,7 +73,7 @@ function Home({ toggleHandler }) {
               type="number"
               placeholder="Enter here Money You Spent"
               ref={newMoney}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
             />
           </div>
           <div className="mb-4">
@@ -85,7 +85,7 @@ function Home({ toggleHandler }) {
               type="text"
               placeholder="Enter The Description"
               ref={newDes}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500  text-black"
             />
           </div>
           <div className="mb-4">
@@ -95,7 +95,7 @@ function Home({ toggleHandler }) {
             <select
               id="category"
               ref={newCat}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500  text-black"
             >
               <option value="food">Food</option>
               <option value="petrol">Petrol</option>
