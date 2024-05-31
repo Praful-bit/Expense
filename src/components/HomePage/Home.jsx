@@ -1,24 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import HomeList from "./HomeList";
+/* eslint-disable react/prop-types */
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseAction } from "../../Store/Expense";
-import { themeAction} from "../../Store/Theme";
-import { saveAs } from "file-saver";
-import * as Papa from "papaparse";
+import "boxicons";
 
-function Home() {
+function Home({ toggleHandler }) {
   const data = useSelector((state) => state.expense.data);
   const darkMode = useSelector((state) => state.theme.darkMode);
   const newMoney = useRef();
   const newDes = useRef();
   const newCat = useRef();
   const dispatch = useDispatch();
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    const total = data.reduce((sum, expense) => sum + Number(expense.money), 0);
-    setTotalPrice(total);
-  }, [data]);
+  console.log(data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,19 +46,9 @@ function Home() {
     newCat.current.value = "";
   };
 
-  const toggleTheme = () => {
-    dispatch(themeAction.toggleTheme());
-  };
-
-  const downloadCSV = () => {
-    const csv = Papa.unparse(data);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, "expenses.csv");
-  };
-
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center ${
+      className={`pt-3 min-h-screen flex flex-col items-center justify-center ${
         darkMode ? "bg-gray-800 " : "bg-gray-100 text-black"
       }`}
     >
@@ -74,7 +57,12 @@ function Home() {
           darkMode ? "bg-gray-700" : "bg-white"
         }`}
       >
-        <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Expense Tracker</h1>
+          <button onClick={toggleHandler} className="focus:outline-none">
+            <box-icon name="exit"></box-icon>
+          </button>
+        </div>
         <form onSubmit={handleSubmit} className="mb-8">
           <div className="mb-4">
             <label htmlFor="money" className="block font-medium mb-2">
@@ -121,32 +109,6 @@ function Home() {
             Save it!!
           </button>
         </form>
-        <HomeList />
-        {totalPrice > 10000 ? (
-          <div className="flex flex-col items-center mt-4">
-            <button
-              onClick={downloadCSV}
-              className="bg-green-700 text-white px-4 py-2 rounded-lg mb-2"
-            >
-              Download Your Transactions
-            </button>
-            <button
-              onClick={toggleTheme}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg"
-            >
-              Toggle Theme
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center text-xl italic font-extralight mt-4">
-            <div
-              title="You have to spend at least 10000 to unlock VIP"
-              className="flex items-center cursor-pointer"
-            >
-              <p className="text-2xl text-yellow-400">Unlock VIP</p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

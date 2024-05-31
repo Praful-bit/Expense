@@ -1,25 +1,31 @@
 import "./App.css";
 import LoginPage from "./components/SignUp/LoginPage";
-import Header from "./components/Header/Header";
 import { Outlet } from "react-router-dom";
 import User from "./components/User/User";
-import Home from "./components/HomePage/Home";
 import { useSelector } from "react-redux";
+import Header from "./components/Header/Header";
 
 function App() {
   const auth = useSelector((state) => state.auth.isAuthenticated);
-
+  const darkMode = useSelector(state=> state.theme.darkMode)
   return (
     <>
-      {!auth && <LoginPage />}
-      {auth && (
-        <div>
-          <Header />
-          <Home/>
-          <User />
-          <Outlet />
-        </div>
-      )}
+      <div
+        className={
+          darkMode
+            ? "bg-gray-900 text-white min-h-screen"
+            : "bg-white text-black min-h-screen"
+        }
+      >
+        {!auth && <LoginPage />}
+        {auth && (
+          <div>
+            <Header />
+            <Outlet />
+            <User />
+          </div>
+        )}
+      </div>
     </>
   );
 }

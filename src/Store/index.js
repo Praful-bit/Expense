@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {authReducer} from './Auth.js'
 import { expenseReducer } from './Expense.js';
-import { themeReducer } from './theme.js';
+import { themeReducer } from './Theme.js';
 
 
 const store = configureStore({

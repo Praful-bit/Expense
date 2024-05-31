@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 function User() {
+  const token  = useSelector(state => state.auth.token)
   const handleClick = async () => {
     const res = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,
@@ -6,7 +9,7 @@ function User() {
         method: "POST",
         body: JSON.stringify({
           requestType: "VERIFY_EMAIL",
-          // idToken: token,
+          idToken: token,
         }),
         headers: { "Content-Type": "application/json" },
       }
