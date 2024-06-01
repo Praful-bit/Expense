@@ -9,7 +9,7 @@ function HomeList() {
   const darkMode = useSelector((state) => state.theme.darkMode);
   const [editId, setEditId] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
- 
+
   const [editData, setEditData] = useState({
     money: "",
     description: "",
@@ -93,8 +93,6 @@ function HomeList() {
     );
     setTotalPrice(total);
   }, [dataGet]);
-
-
 
   const downloadCSV = () => {
     const csv = Papa.unparse(dataGet);
@@ -193,11 +191,11 @@ function HomeList() {
                 ) : (
                   <>
                     <div>
-                      <span className="pr-1">Money: {data.money} </span>
-                      <span className="pr-1">
+                      <div className="pr-1">Money: {data.money} </div>
+                      <div className="pr-1">
                         Description: {data.description}{" "}
-                      </span>
-                      <span className="pr-1">Category: {data.category} </span>
+                      </div>
+                      <div className="pr-1">Category: {data.category} </div>
                     </div>
                     <button
                       onClick={() => handleEdit(data.id)}
