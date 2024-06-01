@@ -6,21 +6,25 @@ function ForgetPassword({ handle }) {
   const handleForget = async (e) => {
     e.preventDefault();
     const Email = newEmail.current.value;
-    const res = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          requestType: "PASSWORD_RESET",
-          email: Email,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const resData = await res.json();
-    console.log(resData);
+    try{
+      const res = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCwpa9W1-_fktr3vZIDdvjZZz4iy-3Knro`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            requestType: "PASSWORD_RESET",
+            email: Email,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const resData = await res.json();
+      console.log(resData);
+    }catch(err){
+    console.log(err)
+    }
   };
 
   return (

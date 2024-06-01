@@ -19,28 +19,32 @@ function Home({ toggleHandler }) {
     const moneyValue = newMoney.current.value;
     const descriptionValue = newDes.current.value;
     const cat = newCat.current.value;
-    const res = await fetch(
-      `https://expense-65a9d-default-rtdb.firebaseio.com/user.json`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          money: moneyValue,
-          description: descriptionValue,
-          category: cat,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const resData = await res.json();
-    const newRes = {
-      id: resData.name,
-      money: moneyValue,
-      description: descriptionValue,
-      category: cat,
-    };
-    dispatch(expenseAction.addExpense(newRes));
+    try{
+      const res = await fetch(
+        `https://expense-65a9d-default-rtdb.firebaseio.com/user.json`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            money: moneyValue,
+            description: descriptionValue,
+            category: cat,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const resData = await res.json();
+      const newRes = {
+        id: resData.name,
+        money: moneyValue,
+        description: descriptionValue,
+        category: cat,
+      };
+      dispatch(expenseAction.addExpense(newRes));
+    }catch(err){
+      console.log(err)
+    }
     newMoney.current.value = "";
     newDes.current.value = "";
     newCat.current.value = "";

@@ -14,7 +14,7 @@ function App() {
         className={
           darkMode
             ? "bg-gray-900 text-white min-h-screen"
-            : "bg-white text-black min-h-screen"
+            : "bg-gray-300 text-black min-h-screen"
         }
       >
         {!auth && <LoginPage />}

@@ -8,8 +8,7 @@ function HomeList() {
   const dataGet = useSelector((state) => state.expense.data);
   const darkMode = useSelector((state) => state.theme.darkMode);
   const [editId, setEditId] = useState(null);
-  const [totalPrice, setTotalPrice] = useState(0);
-
+  const totalPrice = useSelector((state) => state.expense.total);
   const [editData, setEditData] = useState({
     money: "",
     description: "",
@@ -22,26 +21,35 @@ function HomeList() {
 
   useEffect(() => {
     const helloFetch = async () => {
-      const res = await fetch(
-        `https://expense-65a9d-default-rtdb.firebaseio.com/user.json`
-      );
-      const resData = await res.json();
-      const array = [];
-      for (const key in resData) {
-        array.push({ id: key, ...resData[key] });
+      try {
+        const res = await fetch(
+          `https://expense-65a9d-default-rtdb.firebaseio.com/user.json`
+        );
+        const resData = await res.json();
+        const array = [];
+        for (const key in resData) {
+          array.push({ id: key, ...resData[key] });
+        }
+        dispatch(expenseAction.getExpense(array));
+      } catch (err) {
+        console.log(err);
       }
-      dispatch(expenseAction.getExpense(array));
     };
+
     helloFetch();
   }, [dispatch]);
 
   const handleDelete = async (id) => {
+   try{
     await fetch(
       `https://expense-65a9d-default-rtdb.firebaseio.com/user/${id}.json`,
       {
         method: "DELETE",
       }
     );
+   }catch(err){
+    console.log(err)
+   }
     dispatch(expenseAction.deleteExpense({ id }));
   };
 
@@ -91,7 +99,7 @@ function HomeList() {
       (sum, expense) => sum + Number(expense.money),
       0
     );
-    setTotalPrice(total);
+    dispatch(expenseAction.total(total));
   }, [dataGet]);
 
   const downloadCSV = () => {
@@ -103,7 +111,7 @@ function HomeList() {
   return (
     <div
       className={`min-h-screen flex flex-col items-center justify-center ${
-        darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
+        darkMode ? "bg-gray-800 text-white" : "bg-gray-300 text-black"
       }`}
     >
       {totalPrice > 10000 ? (
@@ -122,7 +130,15 @@ function HomeList() {
             className="flex items-center cursor-pointer"
           >
             <p className="mr-2 pr-2 font-serif">Total Price :- {totalPrice}</p>
-            <p className="text-2xl text-yellow-400">Unlock VIP</p>
+            <p
+              className={`"text-3xl " ${
+                darkMode
+                  ? "text-yellow-500 font-bold font-serif"
+                  : "text-black font-bold font-serif"
+              }`}
+            >
+              Unlock VIP
+            </p>
           </div>
         </div>
       )}
@@ -191,11 +207,9 @@ function HomeList() {
                 ) : (
                   <>
                     <div>
-                      <div className="pr-1">Money: {data.money} </div>
-                      <div className="pr-1">
-                        Description: {data.description}{" "}
-                      </div>
-                      <div className="pr-1">Category: {data.category} </div>
+                      <p className="pr-1">Money: {data.money} </p>
+                      <p className="pr-1">Description: {data.description} </p>
+                      <p className="pr-1">Category: {data.category} </p>
                     </div>
                     <button
                       onClick={() => handleEdit(data.id)}

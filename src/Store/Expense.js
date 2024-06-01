@@ -28,8 +28,8 @@ const expenseSlice = createSlice({
     toggleExpense: (state) => {
       state.toggle = !state.toggle;
     },
-    total: (state) => {
-      state.total + action.payload;
+    total: (state,action) => {
+      state.total =  action.payload;
     },
   },
 });
