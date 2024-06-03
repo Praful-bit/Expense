@@ -8,13 +8,14 @@ import { authAction } from "../../Store/Auth";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const OpenPass = useSelector((state) => state.auth.forgetPass);
   const backToLogin = useSelector((state) => state.auth.backToLogin);
   const showSignUp = useSelector((state) => state.auth.openSignUp);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   console.log(token);
-  
+
   const handleToggle = () => {
     dispatch(authAction.openSign());
     dispatch(authAction.openLogin());
@@ -43,14 +44,19 @@ function LoginPage() {
         }
       );
       const resData = await res.json();
-      console.log(resData);
-      dispatch(authAction.login(resData.idToken));
+      if (resData.error) {
+        setError(resData.error.message);
+      } else {
+        dispatch(authAction.login(resData.idToken));
+        setError(""); 
+      }
     } catch (err) {
       console.log(err);
+      setError("Something went wrong. Please try again.");
     }
     console.log("Login with:", { email, password });
   };
-  
+
   return (
     <div>
       <Link to="/login"></Link>
@@ -58,8 +64,8 @@ function LoginPage() {
         <div className="min-h-screen flex items-center justify-center bg-violet-200 py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full space-y-8">
             <div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Sign in to your account
+              <h2 className="mt-6 font-serif text-center text-3xl font-extrabold text-gray-900">
+                Log In To Your Account
               </h2>
             </div>
             <form className="mt-8 space-y-6" onSubmit={handleLogin}>
@@ -108,23 +114,29 @@ function LoginPage() {
                   />
                   <label
                     htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-900"
+                    className="ml-2 block font-serif text-lg text-gray-900"
                   >
                     Remember me
                   </label>
                 </div>
 
                 {!OpenPass && (
-                  <div className="text-sm">
+                  <div className="text-lg text-black font-serif">
                     <button onClick={handleOpen}>Forget Password</button>
                   </div>
                 )}
               </div>
 
+              {error && (
+                <div className="text-red-500 text-sm">
+                  {error}
+                </div>
+              )}
+
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full mb-2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="group relative font-serif w-full mb-2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <svg
@@ -149,7 +161,7 @@ function LoginPage() {
                 </button>
                 {!showSignUp && !backToLogin && (
                   <button
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="group relative font-serif w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={handleToggle}
                   >
                     Sign Up
