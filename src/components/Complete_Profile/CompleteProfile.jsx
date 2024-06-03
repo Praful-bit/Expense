@@ -99,7 +99,7 @@ function CompleteProfile() {
             <span>Profile Photo URL:</span>
           </label>
           <input
-            type="text"
+            type="file"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             id="profilePhoto"

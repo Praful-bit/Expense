@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Header from "./components/Header/Header";
 
 function App() {
-  const auth = useSelector((state) => state.auth.isAuthenticated);
+  const auth = useSelector (state => state.auth.isAuthenticated);
   const darkMode = useSelector(state=> state.theme.darkMode)
   return (
     <>
