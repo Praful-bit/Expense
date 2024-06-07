@@ -138,25 +138,6 @@ function LoginPage() {
                   type="submit"
                   className="group relative font-serif w-full mb-2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <svg
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        d="M4 8V6a4 4 0 118 0v2h2a1 1 0 011 1v5a2 2 0 01-2 2H5a2 2 0 01-2-2V9a1 1 0 011-1h2zm2-2v2h8V6a2 2 0 00-2-2H6a2 2 0 00-2 2z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
                   Log In
                 </button>
                 {!showSignUp && !backToLogin && (
