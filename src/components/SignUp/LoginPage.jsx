@@ -48,7 +48,7 @@ function LoginPage() {
         setError(resData.error.message);
       } else {
         dispatch(authAction.login(resData.idToken));
-        setError(""); 
+        setError("");
       }
     } catch (err) {
       console.log(err);
@@ -112,10 +112,7 @@ function LoginPage() {
                     type="checkbox"
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                   />
-                  <label
-                    
-                    className="ml-2 block font-serif text-lg text-gray-900"
-                  >
+                  <label className="ml-2 block font-serif text-lg text-gray-900">
                     Remember me
                   </label>
                 </div>
@@ -127,11 +124,7 @@ function LoginPage() {
                 )}
               </div>
 
-              {error && (
-                <div className="text-red-500 text-sm">
-                  {error}
-                </div>
-              )}
+              {error && <div className="text-red-500 text-sm">{error}</div>}
 
               <div>
                 <button
